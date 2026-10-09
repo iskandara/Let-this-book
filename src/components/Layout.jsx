@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react';
 import { Link, Outlet, useLocation } from 'react-router-dom';
+import Supporters from './Supporters.jsx';
 
 const MENU = [
   ['/home', 'Home'],
   ['/about', 'About'],
   ['/gallery', 'Gallery'],
   ['/book', 'See the Book'],
-  ['/capture', 'Capture Moment'],
 ];
 
 export default function Layout() {
@@ -21,6 +21,12 @@ export default function Layout() {
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
   }, [open]);
+
+  // Choosing the page you are already on still closes the menu and goes back to its top.
+  const go = () => {
+    setOpen(false);
+    window.scrollTo(0, 0);
+  };
 
   return (
     <div className="shell">
@@ -37,13 +43,17 @@ export default function Layout() {
         {open && (
           <nav className="menu dotted" aria-label="Main">
             {MENU.map(([to, label]) => (
-              <Link key={to} to={to} className="box-btn">
+              <Link key={to} to={to} className="box-btn" onClick={go}>
                 {label}
               </Link>
             ))}
-            <button className="link-btn" onClick={() => setOpen(false)}>
+            <Link to="/capture" className="capture-banner" onClick={go}>
+              <img src="/img/capture-moment.png" alt="Capture moment" width="540" height="418" />
+            </Link>
+            <button className="close-btn" onClick={() => setOpen(false)}>
               Close
             </button>
+            <Supporters />
           </nav>
         )}
         <main className="content">

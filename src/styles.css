@@ -239,9 +239,37 @@ button {
   animation: fade 0.2s ease-out;
 }
 
-.menu .link-btn {
+.menu > * {
+  flex-shrink: 0;
+}
+
+.menu .capture-banner {
+  width: 62%;
+  margin: 0 auto;
+}
+
+.close-btn {
   align-self: center;
-  margin-top: 8px;
+  display: grid;
+  place-items: center;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  border: 2px solid var(--green);
+  background: #fff;
+  box-shadow: 0 3px 4px rgb(0 0 0 / 0.25);
+  font-family: var(--serif-label);
+  font-weight: 400;
+  font-size: 12px;
+}
+
+.close-btn:hover {
+  background: #eaf7ef;
+}
+
+.menu .supporters {
+  margin-top: auto;
+  padding-bottom: 0;
 }
 
 .content {
