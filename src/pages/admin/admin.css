@@ -1,0 +1,235 @@
+.adm {
+  min-height: 100svh;
+  background: #f4f2f0;
+  color: #1a1a1a;
+  font-family: var(--sans);
+  font-size: 14px;
+}
+
+.adm h1 {
+  margin: 0 0 12px;
+  font-family: var(--serif-label);
+  font-weight: 400;
+  font-size: 22px;
+}
+
+.adm-bar {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 12px 16px;
+  background: #fff;
+  border-bottom: 1px solid #ddd;
+}
+
+.adm-brand {
+  font-family: var(--serif-label);
+  font-size: 16px;
+  text-decoration: none;
+}
+
+.adm-user {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: #555;
+}
+
+.adm-main {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 24px 16px 48px;
+}
+
+.adm-card {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 20px;
+}
+
+.adm-narrow {
+  max-width: 380px;
+  margin: 40px auto;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.adm-narrow label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-weight: 600;
+}
+
+.adm input,
+.adm select {
+  font: inherit;
+  font-size: 16px;
+  padding: 9px 10px;
+  border: 1px solid #bbb;
+  border-radius: 6px;
+  background: #fff;
+  color: inherit;
+}
+
+.adm-btn {
+  align-self: flex-start;
+  border: 0;
+  border-radius: 6px;
+  padding: 10px 18px;
+  background: var(--green);
+  color: #fff;
+  font-weight: 600;
+}
+
+.adm-btn:disabled {
+  opacity: 0.6;
+  cursor: progress;
+}
+
+.adm-btn.secondary {
+  display: block;
+  margin: 24px auto 0;
+  background: #fff;
+  color: #1a1a1a;
+  border: 1px solid #bbb;
+}
+
+.adm-btn.danger {
+  margin-top: 20px;
+  background: #b3261e;
+}
+
+.adm-link {
+  border: 0;
+  background: none;
+  padding: 0;
+  color: #1a5fb4;
+  text-decoration: underline;
+}
+
+.adm-muted {
+  color: #666;
+}
+
+.adm-muted.small {
+  font-size: 12px;
+}
+
+.adm-error {
+  margin: 0;
+  color: #b3261e;
+}
+
+.adm-code {
+  margin: 0;
+  padding: 10px;
+  background: #f4f2f0;
+  border-radius: 6px;
+  overflow-x: auto;
+  user-select: all;
+}
+
+.adm-toolbar {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 18px;
+}
+
+.adm-toolbar h1 {
+  margin: 0 auto 0 0;
+}
+
+.adm-grid {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 14px;
+}
+
+.adm-tile {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  height: 100%;
+  padding: 8px;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: box-shadow 0.15s;
+}
+
+.adm-tile:hover {
+  box-shadow: 0 2px 10px rgb(0 0 0 / 0.12);
+}
+
+.adm-tile img {
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: cover;
+  border-radius: 4px;
+  background: #eee;
+}
+
+.adm-tile-caption {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  font-weight: 600;
+}
+
+.adm-detail-body {
+  display: grid;
+  gap: 20px;
+  margin-top: 14px;
+}
+
+@media (min-width: 800px) {
+  .adm-detail-body {
+    grid-template-columns: minmax(0, 3fr) minmax(280px, 2fr);
+    align-items: start;
+  }
+}
+
+.adm-photo {
+  width: 100%;
+  max-height: 80vh;
+  object-fit: contain;
+  background: #222;
+  border-radius: 8px;
+}
+
+.adm-fields {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 10px 16px;
+  margin: 0;
+}
+
+.adm-fields dt {
+  font-weight: 600;
+  color: #555;
+}
+
+.adm-fields dd {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+.adm-raw {
+  display: block;
+  margin-top: 4px;
+}

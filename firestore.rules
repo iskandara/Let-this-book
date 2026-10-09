@@ -1,0 +1,52 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function validLocation(loc) {
+      return loc == null || (
+        loc is map
+        && loc.keys().hasOnly(['raw', 'lat', 'lng', 'url'])
+        && loc.raw is string && loc.raw.size() <= 500
+        && loc.url is string && loc.url.size() <= 600 && loc.url.matches('https://.*')
+        && (loc.lat == null || (loc.lat is number && loc.lat >= -90 && loc.lat <= 90))
+        && (loc.lng == null || (loc.lng is number && loc.lng >= -180 && loc.lng <= 180))
+      );
+    }
+
+    // An admin is a signed-in account with a document admins/{uid}, added by hand in the Firebase console.
+    function isAdmin() {
+      return request.auth != null && exists(/databases/$(database)/documents/admins/$(request.auth.uid));
+    }
+
+    match /admins/{uid} {
+      allow read: if request.auth != null && request.auth.uid == uid;
+    }
+
+    // Anyone can read and add posts; nobody can edit them, and only admins can delete them.
+    match /posts/{id} {
+      allow read: if true;
+      allow delete: if isAdmin();
+      allow create: if request.resource.data.keys().hasOnly(['caption', 'location', 'character', 'place', 'thumb', 'createdAt'])
+        && request.resource.data.caption is string
+        && request.resource.data.caption.size() > 0
+        && request.resource.data.caption.size() <= 280
+        && validLocation(request.resource.data.location)
+        && request.resource.data.character in ['content-creator', 'daddy', 'dj', 'sporty-person', 'artist', 'entity']
+        && request.resource.data.place in ['culture', 'market', 'nature', 'library', 'park']
+        && request.resource.data.thumb is string
+        && request.resource.data.thumb.matches('data:image/jpeg;base64,.*')
+        && request.resource.data.thumb.size() <= 80000
+        && request.resource.data.createdAt == request.time
+        && existsAfter(/databases/$(database)/documents/photos/$(id));
+    }
+
+    match /photos/{id} {
+      allow read: if true;
+      allow delete: if isAdmin();
+      allow create: if request.resource.data.keys().hasOnly(['data'])
+        && request.resource.data.data is string
+        && request.resource.data.data.matches('data:image/jpeg;base64,.*')
+        && request.resource.data.data.size() <= 750000
+        && existsAfter(/databases/$(database)/documents/posts/$(id));
+    }
+  }
+}
