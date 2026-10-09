@@ -20,7 +20,7 @@ npm test         # unit tests for the Google Maps link parser
 npm run build    # production build in dist/
 ```
 
-If no Firebase config is set, the site runs in **demo mode**. Everything works, but moments are saved only in your own browser, and the gallery says so.
+The live Firebase config is in `.env`, so `npm run dev` reads and writes the **real** gallery. To try things without touching it, create `.env.local` with the four `VITE_FIREBASE_*` values left empty. That runs the site in **demo mode**: everything works, but moments are saved only in your own browser, and the gallery says so.
 
 ## Connect Firebase (one-time)
 
@@ -29,7 +29,7 @@ Photos are resized in the browser and stored in Firestore, so the free **Spark**
 1. Go to <https://console.firebase.google.com> and click **Create a project**. Google Analytics is not needed.
 2. Go to **Build → Firestore Database → Create database**. Choose a location such as `asia-southeast2 (Jakarta)` and start in **production mode**.
 3. Go to **Project settings → General → Your apps** and click the web icon `</>`. Register an app (Hosting is not needed) and copy the config values.
-4. Copy `.env.example` to `.env.local` and fill in the four `VITE_FIREBASE_*` values.
+4. Put the four `VITE_FIREBASE_*` values in `.env`. This is already done for the live project.
 5. Publish the security rules and indexes from this repository:
    ```bash
    npx firebase-tools login
@@ -46,7 +46,7 @@ Photos are resized in the browser and stored in Firestore, so the free **Spark**
 ## Deploy on Vercel
 
 1. On <https://vercel.com/new>, import this GitHub repository. Vercel detects the Vite framework preset automatically.
-2. Under **Environment Variables**, add the same four `VITE_FIREBASE_*` values.
+2. You don't need any environment variables, because the build reads `.env`.
 3. Click **Deploy**. `vercel.json` makes direct links such as `/gallery/abc` work.
 4. In Firebase, go to **Authentication → Settings → Authorized domains** and add your Vercel domain. This only matters if you later add sign-in.
 
