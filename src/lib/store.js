@@ -50,6 +50,17 @@ export async function getPost(id) {
   return { id, ...post.data(), full: photo.exists() ? photo.data().data : post.data().thumb };
 }
 
+// Removes both halves of a post. Only signed-in admins may do this (see firestore.rules).
+export async function deletePost(id) {
+  if (isDemo) return demo.remove(id);
+
+  const { db, doc, writeBatch } = await firebase;
+  const batch = writeBatch(db);
+  batch.delete(doc(db, 'posts', id));
+  batch.delete(doc(db, 'photos', id));
+  await batch.commit();
+}
+
 const DEMO_KEY = 'ltb-demo-posts';
 const demo = {
   read() {
@@ -80,5 +91,8 @@ const demo = {
   },
   get(id) {
     return this.read().find((p) => p.id === id) || null;
+  },
+  remove(id) {
+    localStorage.setItem(DEMO_KEY, JSON.stringify(this.read().filter((p) => p.id !== id)));
   },
 };

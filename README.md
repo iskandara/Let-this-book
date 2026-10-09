@@ -41,7 +41,22 @@ Photos are resized in the browser and stored in Firestore, so the free **Spark**
 
 * Anyone can read posts and add new posts.
 * A new post must have a caption of at most 280 characters, a valid character and place, a JPEG photo, and a pin point that is an `https` link. Posts cannot be edited or deleted from the website.
-* **To remove a post:** in the Firestore console, delete both `posts/{id}` and `photos/{id}`. The id is the last part of the post's URL, for example `/gallery/AbC123`.
+* Only signed-in admins can delete posts. See below.
+
+## Moderation (admin)
+
+Open `/admin` on the site, for example `https://your-site.vercel.app/admin`. Admins sign in there to see every post with its full photo, caption, character, place, pin point and date, and can delete posts. The page is not linked anywhere on the public site.
+
+One-time setup in the Firebase console:
+
+1. Go to **Authentication** and click **Get started**. Under **Sign-in method**, choose **Email/Password**, switch on the first toggle (not "Email link") and click **Save**.
+2. Under **Authentication → Users**, click **Add user** and enter the admin's email and a strong password.
+3. Copy that user's **User UID** from the users table.
+4. In **Firestore → Data**, click **Start collection**. Name it `admins` and set the **Document ID** to the copied UID. Add any field, for example `email` = the admin's email, then click **Save**.
+5. Paste the latest `firestore.rules` into **Firestore → Rules** and click **Publish**. These are the rules that let admins delete.
+6. Optional but recommended: under **Authentication → Settings → User actions**, untick **Enable create (sign-up)** so nobody else can create accounts.
+
+To add another admin, repeat steps 2 to 4. To remove one, delete their `admins` document.
 
 ## Deploy on Vercel
 
@@ -58,7 +73,8 @@ src/data.js          characters and places (names, slugs, artwork)
 src/lib/location.js  turns pasted Google Maps links or coordinates into a pin
 src/lib/image.js     resizes photos before upload
 src/lib/store.js     Firestore reads and writes, plus the demo-mode fallback
-src/pages/           one file per screen
+src/lib/admin.js     admin sign-in (Firebase Authentication)
+src/pages/           one file per screen; src/pages/admin/ is the moderation page
 firestore.rules      who may read and write what
 ```
 
